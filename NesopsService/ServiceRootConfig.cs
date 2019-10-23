@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NesopsService.Data;
 using NesopsService.Domain.Mapping;
+using NesopsService.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -17,6 +17,6 @@ namespace NesopsService.Domain.Models
         public DateTime UpdateAt { get; set; }
 
         #endregion
-
+        public virtual ICollection<SubcategoriesReadModel> CategorySubcategories { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using NesopsService.Data;
 using NesopsService.Data.Entities;
 using NesopsService.Domain.Models;
+using NesopsService.Services;
 using ProductCoreDev.BaseController;
 
 namespace ProductCoreDev.Controllers
@@ -18,14 +19,14 @@ namespace ProductCoreDev.Controllers
     [ApiController]
     public class CategoriesController : EntityControllerBase<Categories, CategoriesReadModel, CategoriesCreateModel, CategoriesUpdateModel>
     {
+        private CategoriesService _categoriesService;
         public CategoriesController(ProductdevContext dataContext, IMapper mapper) : base(dataContext, mapper)
         {
+            _categoriesService = new CategoriesService(dataContext, mapper);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoriesReadModel>> Get(CancellationToken cancellationToken, Guid id)
         {
-            var uri = new Uri( Request.GetEncodedUrl());
-            var queryDictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
             var readModel = await ReadModel(id, cancellationToken);
             if (readModel == null)
                 return NotFound();
@@ -36,7 +37,7 @@ namespace ProductCoreDev.Controllers
         [HttpGet("")]
         public async Task<ActionResult<IReadOnlyList<CategoriesReadModel>>> List(CancellationToken cancellationToken)
         {
-            var listResult = await QueryModel(null, cancellationToken);
+            var listResult = await _categoriesService.QueryModel(cancellationToken, this.Request);
             return Ok(listResult);
         }
 
