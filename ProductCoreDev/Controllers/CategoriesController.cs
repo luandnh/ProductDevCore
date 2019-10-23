@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NesopsService.Data;
 using NesopsService.Data.Entities;
@@ -23,8 +24,9 @@ namespace ProductCoreDev.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoriesReadModel>> Get(CancellationToken cancellationToken, Guid id)
         {
+            var uri = new Uri( Request.GetEncodedUrl());
+            var queryDictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
             var readModel = await ReadModel(id, cancellationToken);
-
             if (readModel == null)
                 return NotFound();
 

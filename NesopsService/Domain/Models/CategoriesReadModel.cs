@@ -18,7 +18,5 @@ namespace NesopsService.Domain.Models
 
         #endregion
 
-        public virtual ICollection<SubcategoriesReadModel> CategorySubcategories { get; set; }
-
     }
 }
