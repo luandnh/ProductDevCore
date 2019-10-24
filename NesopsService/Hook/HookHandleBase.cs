@@ -23,9 +23,5 @@ namespace NesopsService.Hook
             _dataContext = dataContext;
             _mapper = mapper;
         }
-        public List<TReadModel> HandlePaging(List<TReadModel> readModels,TRequestModel request)
-        {
-            return readModels.Skip(request.limit * request.skip).Take(request.limit).ToList();
-        }
     }
 }

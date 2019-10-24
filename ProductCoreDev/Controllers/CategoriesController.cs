@@ -12,6 +12,7 @@ using NesopsService.Data.Entities;
 using NesopsService.Domain.Models;
 using NesopsService.Hook.Before;
 using NesopsService.Hook.Models.RequestModels;
+using NesopsService.Hook.Models.ResponseModels;
 using ProductCoreDev.BaseController;
 
 namespace ProductCoreDev.Controllers
@@ -26,20 +27,20 @@ namespace ProductCoreDev.Controllers
             _beforeHookCategories = new BeforeHookCategories(dataContext, mapper);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoriesReadModel>> Get(CancellationToken cancellationToken, Guid id)
+        public async Task<ActionResult<GetResponseModel<CategoriesReadModel, CategoriesRequestModel>>> Get(CancellationToken cancellationToken, Guid id)
         {
             var readModel = await _beforeHookCategories.ReadModel(this.Request, id, cancellationToken);
             if (readModel == null)
                 return NotFound();
-
-            return readModel;
+            var result = new GetResponseModel<CategoriesReadModel, CategoriesRequestModel>(readModel, new CategoriesRequestModel());
+            return Ok(result);
         }
 
         [HttpGet("")]
         public async Task<ActionResult<IReadOnlyList<CategoriesReadModel>>> List(CancellationToken cancellationToken, [FromQuery]  CategoriesRequestModel requestModel)
         {
-            var queryAble = await _beforeHookCategories.ListModel(this.Request, cancellationToken);
-            var result = _beforeHookCategories.HandlePaging(queryAble, requestModel);
+            var readModels = await _beforeHookCategories.ListModel(this.Request, cancellationToken);
+            var result = new GetResponseModel<CategoriesReadModel,CategoriesRequestModel>(readModels, requestModel);
             return Ok(result);
         }
 
