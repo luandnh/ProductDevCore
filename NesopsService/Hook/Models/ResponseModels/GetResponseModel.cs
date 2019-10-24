@@ -22,8 +22,9 @@ namespace NesopsService.Hook.Models.ResponseModels
             CountTotal();
             SetLimitAndSkip();
         }
-        public GetResponseModel(List<TReadModel> model, TRequestModel _requestModel)
+        public GetResponseModel(List<TReadModel> model, TRequestModel requestModel)
         {
+            request = requestModel;
             data = model; 
             CountTotal();           
             SetLimitAndSkip();
