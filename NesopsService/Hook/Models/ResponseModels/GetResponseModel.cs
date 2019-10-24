@@ -14,13 +14,13 @@ namespace NesopsService.Hook.Models.ResponseModels
         public int skip { get; private set; } = 0;
         public List<TReadModel> data { get; set; }
         private TRequestModel request { get; set; }
-        public GetResponseModel(TReadModel model, TRequestModel requestModel)
+        public GetResponseModel(TReadModel model)
         {
-            request = requestModel;
             data = new List<TReadModel>();
             data.Add(model);
             CountTotal();
-            SetLimitAndSkip();
+            skip = 0;
+            limit = 1;
         }
         public GetResponseModel(List<TReadModel> model, TRequestModel requestModel)
         {

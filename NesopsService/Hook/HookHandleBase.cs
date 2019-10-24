@@ -14,19 +14,26 @@ using System.Threading.Tasks;
 
 namespace NesopsService.Hook
 {
-    public interface IHookHandleBase
+    public interface IHookHandleBase<TDBContext, TEntity, TReadModel, TRequestModel> 
+        where TDBContext : DbContext
+        where TRequestModel : class, IRequestModelBase
+        where TEntity : class, IHaveIdentifier
+        where TReadModel : class
     {
-        ProductdevContext _dataContext { get; }
+        TDBContext _dataContext { get; }
         IMapper _mapper { get; }
+        Task<List<TReadModel>> ListModel(HttpRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        Task<TReadModel> ReadModel(HttpRequest request, Guid id, CancellationToken cancellationToken = default(CancellationToken));
     }
-    public class HookHandleBase<TEntity,TReadModel,TRequestModel> : IHookHandleBase 
+    public class HookHandleBase<TDBContext, TEntity,TReadModel,TRequestModel> : IHookHandleBase<TDBContext, TEntity, TReadModel, TRequestModel>
+        where TDBContext : DbContext
         where TRequestModel : class, IRequestModelBase
         where TEntity : class,IHaveIdentifier
         where TReadModel : class
     {
-        public ProductdevContext _dataContext { get; }
+        public TDBContext _dataContext { get; }
         public IMapper _mapper { get; }
-        public HookHandleBase(ProductdevContext dataContext, IMapper mapper)
+        public HookHandleBase(TDBContext dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;

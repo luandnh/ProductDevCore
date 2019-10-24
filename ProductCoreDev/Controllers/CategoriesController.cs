@@ -10,38 +10,35 @@ using Microsoft.AspNetCore.Mvc;
 using NesopsService.Data;
 using NesopsService.Data.Entities;
 using NesopsService.Domain.Models;
+using NesopsService.EntityControllerBase;
 using NesopsService.Hook.Before;
 using NesopsService.Hook.Models.RequestModels;
 using NesopsService.Hook.Models.ResponseModels;
-using ProductCoreDev.BaseController;
 
 namespace ProductCoreDev.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : EntityControllerBase<Categories, CategoriesReadModel, CategoriesCreateModel, CategoriesUpdateModel>
+    public class CategoriesController : EntityControllerBase<ProductdevContext, Categories, CategoriesReadModel, CategoriesCreateModel, CategoriesUpdateModel, CategoriesRequestModel, BeforeHookCategories>
     {
-        private BeforeHookCategories _beforeHookCategories;
-        public CategoriesController(ProductdevContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public CategoriesController(ProductdevContext dataContext, IMapper mapper, BeforeHookCategories hook) : base(dataContext, mapper, hook)
         {
-            _beforeHookCategories = new BeforeHookCategories(dataContext, mapper);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GetResponseModel<CategoriesReadModel, CategoriesRequestModel>>> Get(CancellationToken cancellationToken, Guid id)
         {
-            var readModel = await _beforeHookCategories.ReadModel(this.Request, id, cancellationToken);
+            var readModel = await ReadModel(this.Request, id, cancellationToken);
             if (readModel == null)
                 return NotFound();
-            var result = new GetResponseModel<CategoriesReadModel, CategoriesRequestModel>(readModel, new CategoriesRequestModel());
-            return Ok(result);
+            return Ok(readModel);
         }
 
         [HttpGet("")]
         public async Task<ActionResult<IReadOnlyList<CategoriesReadModel>>> List(CancellationToken cancellationToken, [FromQuery]  CategoriesRequestModel requestModel)
         {
-            var readModels = await _beforeHookCategories.ListModel(this.Request, cancellationToken);
-            var result = new GetResponseModel<CategoriesReadModel,CategoriesRequestModel>(readModels, requestModel);
-            return Ok(result);
+            var readModels = await ListModel(this.Request, requestModel, cancellationToken);
+            return Ok(readModels);
         }
 
         [HttpPost("")]

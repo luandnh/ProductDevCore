@@ -2,7 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NesopsService.Data;
+using NesopsService.Data.Entities;
 using NesopsService.Domain.Mapping;
+using NesopsService.Domain.Models;
+using NesopsService.Hook;
+using NesopsService.Hook.Before;
+using NesopsService.Hook.Models.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,6 +34,8 @@ namespace NesopsService
             services.AddAutoMapper(typeof(ProductVideosProfile));
             services.AddAutoMapper(typeof(StoresProfile));
             services.AddAutoMapper(typeof(SubcategoriesProfile));
+
+            services.AddScoped(typeof(BeforeHookCategories));
         }
     }
 }

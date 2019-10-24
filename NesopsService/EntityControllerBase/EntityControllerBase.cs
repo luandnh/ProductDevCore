@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NesopsService.Data;
+using NesopsService.Hook;
+using NesopsService.Hook.Models;
+using NesopsService.Hook.Models.ResponseModels;
 using NesopsService.Identifier;
 using System;
 using System.Collections.Generic;
@@ -11,33 +15,48 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProductCoreDev.BaseController
+namespace NesopsService.EntityControllerBase
 {
     [ApiController]
     [Produces("application/json")]
-    public abstract class EntityControllerBase<TEntity, TReadModel, TCreateModel, TUpdateModel> : ControllerBase
-            where TEntity : class, IHaveIdentifier
+    public abstract class EntityControllerBase<TDBContext, TEntity, TReadModel, TCreateModel, TUpdateModel, TRequestModel, THook> : ControllerBase
+        where TDBContext : DbContext    
+        where TEntity : class, IHaveIdentifier
+        where TRequestModel : class, IRequestModelBase
+        where TReadModel : class
+        where THook : class, IHookHandleBase<TDBContext, TEntity, TReadModel, TRequestModel>
     {
-
-        protected ProductdevContext _dataContext { get; }
+        protected TDBContext _dataContext { get; }
         protected IMapper _mapper { get; }
-        protected EntityControllerBase(ProductdevContext dataContext,IMapper mapper)
+        protected THook _hook { get; set; }
+
+        protected EntityControllerBase(TDBContext dataContext, IMapper mapper, THook hook)
         {
             _dataContext = dataContext;
             _mapper = mapper;
+            _hook = hook;
         }
-        protected virtual async Task<TReadModel> ReadModel(Guid id, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<GetResponseModel<TReadModel,TRequestModel>> ReadModel(HttpRequest request, Guid id, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var model = await _dataContext
-                .Set<TEntity>()
-                .AsNoTracking()
-                .Where(p => p.Id == id)
-                .ProjectTo<TReadModel>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return model;
+            var readModel = await _hook.ReadModel(request, id, cancellationToken);
+            if (readModel == null)
+            {
+                return null;
+            }
+            var result = new GetResponseModel<TReadModel, TRequestModel>(readModel);
+            return result;
         }
-        protected virtual async Task<TReadModel> CreateModel(TCreateModel createModel, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<GetResponseModel<TReadModel, TRequestModel>> ListModel(HttpRequest request,TRequestModel requestModel, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var readModel = await _hook.ListModel(request, cancellationToken);
+            if (readModel == null)
+            {
+                return null;
+            }
+            var result = new GetResponseModel<TReadModel, TRequestModel>(readModel, requestModel);
+            return result;
+        }
+         protected virtual async Task<TReadModel> CreateModel(TCreateModel createModel, CancellationToken cancellationToken = default(CancellationToken))
         {
             // create new entity from model
             var entity = _mapper.Map<TEntity>(createModel);
@@ -107,21 +126,16 @@ namespace ProductCoreDev.BaseController
 
             return readModel;
         }
-
-        protected virtual async Task<IReadOnlyList<TReadModel>> QueryModel(Expression<Func<TEntity, bool>> predicate = null, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<TReadModel> ReadModel(Guid id, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var dbSet = _dataContext
-                .Set<TEntity>();
-
-            var query = dbSet.AsNoTracking();
-            if (predicate != null)
-                query = query.Where(predicate);
-
-            var results = await query
+            var model = await _dataContext
+                .Set<TEntity>()
+                .AsNoTracking()
+                .Where(p => p.Id == id)
                 .ProjectTo<TReadModel>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+                .FirstOrDefaultAsync(cancellationToken);
 
-            return results;
+            return model;
         }
     }
 }

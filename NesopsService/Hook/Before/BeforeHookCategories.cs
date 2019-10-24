@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace NesopsService.Hook.Before
 {
-    public class BeforeHookCategories : HookHandleBase<Categories,CategoriesReadModel,CategoriesRequestModel>
+    public class BeforeHookCategories : HookHandleBase<ProductdevContext,Categories,CategoriesReadModel,CategoriesRequestModel>
     {
         public BeforeHookCategories(ProductdevContext dataContext, IMapper mapper) : base(dataContext, mapper)
         {
@@ -44,20 +44,5 @@ namespace NesopsService.Hook.Before
             }
             return query;
         }
-        //public async Task<List<CategoriesReadModel>> ListModel(HttpRequest request, CancellationToken cancellationToken = default(CancellationToken))
-        //{
-        //    var query = HandleRequestQuery(request);
-        //    var result = new List<CategoriesReadModel>();
-        //    var queryResult = await query.ToListAsync();
-        //    result = _mapper.Map<List<CategoriesReadModel>>(queryResult);
-        //    return result;
-        //}
-        //public async Task<CategoriesReadModel> ReadModel(HttpRequest request, Guid id, CancellationToken cancellationToken = default(CancellationToken))
-        //{
-        //    var query = HandleRequestQuery(request);
-        //    var queryResult = await CategoriesExtensions.GetByKeyAsync(query, id);
-        //    var result = _mapper.Map<CategoriesReadModel>(queryResult);
-        //    return result;
-        //}
     }
 }
