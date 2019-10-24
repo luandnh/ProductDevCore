@@ -10,7 +10,7 @@ namespace NesopsService.Domain.Models
 
         public string CategoryName { get; set; }
 
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
 
         //public DateTime CreateAt { get; set; }
 

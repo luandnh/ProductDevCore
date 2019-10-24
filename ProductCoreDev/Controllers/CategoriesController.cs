@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using NesopsService.Data;
 using NesopsService.Data.Entities;
 using NesopsService.Domain.Models;
-using NesopsService.Services;
+using NesopsService.Hook.Before;
+using NesopsService.Hook.Models.RequestModels;
 using ProductCoreDev.BaseController;
 
 namespace ProductCoreDev.Controllers
@@ -19,15 +20,15 @@ namespace ProductCoreDev.Controllers
     [ApiController]
     public class CategoriesController : EntityControllerBase<Categories, CategoriesReadModel, CategoriesCreateModel, CategoriesUpdateModel>
     {
-        private CategoriesService _categoriesService;
+        private BeforeHookCategories _beforeHookCategories;
         public CategoriesController(ProductdevContext dataContext, IMapper mapper) : base(dataContext, mapper)
         {
-            _categoriesService = new CategoriesService(dataContext, mapper);
+            _beforeHookCategories = new BeforeHookCategories(dataContext, mapper);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoriesReadModel>> Get(CancellationToken cancellationToken, Guid id)
         {
-            var readModel = await ReadModel(id, cancellationToken);
+            var readModel = await _beforeHookCategories.ReadModel(this.Request, id, cancellationToken);
             if (readModel == null)
                 return NotFound();
 
@@ -35,14 +36,15 @@ namespace ProductCoreDev.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IReadOnlyList<CategoriesReadModel>>> List(CancellationToken cancellationToken)
+        public async Task<ActionResult<IReadOnlyList<CategoriesReadModel>>> List(CancellationToken cancellationToken, [FromQuery]  CategoriesRequestModel requestModel)
         {
-            var listResult = await _categoriesService.QueryModel(cancellationToken, this.Request);
-            return Ok(listResult);
+            var queryAble = await _beforeHookCategories.ListModel(this.Request, cancellationToken);
+            var result = _beforeHookCategories.HandlePaging(queryAble, requestModel);
+            return Ok(result);
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<CategoriesReadModel>> Create(CancellationToken cancellationToken, CategoriesCreateModel createModel)
+        public async Task<ActionResult<CategoriesReadModel>> Create(CancellationToken cancellationToken,[FromForm]CategoriesCreateModel createModel)
         {
             var readModel = await CreateModel(createModel, cancellationToken);
 
