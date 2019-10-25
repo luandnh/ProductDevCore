@@ -37,7 +37,13 @@ namespace NesopsService
             services.AddAutoMapper(typeof(StoresProfile));
             services.AddAutoMapper(typeof(SubcategoriesProfile));
             #endregion
-
+            #region Config Validator
+            // FluentValidation read on class extend AbstractValidator
+            var types = typeof(CategoriesCreateModelValidator).Assembly.GetTypes();
+            new AssemblyScanner(types).ForEach(pair => {
+                services.Add(ServiceDescriptor.Transient(pair.InterfaceType, pair.ValidatorType));
+            });
+            #endregion
             services.AddScoped(typeof(BeforeHookCategories));
         }
     }
