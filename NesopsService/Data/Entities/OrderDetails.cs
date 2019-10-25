@@ -1,9 +1,10 @@
+using NesopsService.Identifier;
 using System;
 using System.Collections.Generic;
 
 namespace NesopsService.Data.Entities
 {
-    public partial class OrderDetails
+    public partial class OrderDetails : IHaveIdentifier
     {
         public OrderDetails()
         {
