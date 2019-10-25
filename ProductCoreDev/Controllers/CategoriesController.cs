@@ -45,7 +45,6 @@ namespace ProductCoreDev.Controllers
         public async Task<ActionResult<CategoriesReadModel>> Create(CancellationToken cancellationToken,[FromForm]CategoriesCreateModel createModel)
         {
             var readModel = await CreateModel(createModel, cancellationToken);
-
             return readModel;
         }
 

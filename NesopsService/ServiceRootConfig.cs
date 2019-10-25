@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NesopsService.Data;
 using NesopsService.Data.Entities;
 using NesopsService.Domain.Mapping;
 using NesopsService.Domain.Models;
+using NesopsService.Domain.Validation;
 using NesopsService.Hook;
 using NesopsService.Hook.Before;
 using NesopsService.Hook.Models.RequestModels;
@@ -18,7 +20,7 @@ namespace NesopsService
     {
         public static void Entry(IServiceCollection services, IConfiguration configuration)
         {
-
+            #region Auto Mapper Config
             // register AutoMapper profiles
             services.AddAutoMapper(typeof(AspNetUsersProfile));
             services.AddAutoMapper(typeof(CategoriesProfile));
@@ -34,6 +36,7 @@ namespace NesopsService
             services.AddAutoMapper(typeof(ProductVideosProfile));
             services.AddAutoMapper(typeof(StoresProfile));
             services.AddAutoMapper(typeof(SubcategoriesProfile));
+            #endregion
 
             services.AddScoped(typeof(BeforeHookCategories));
         }

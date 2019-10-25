@@ -22,6 +22,10 @@ using NesopsService.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using NesopsService;
+using ProductCoreDev.Filters;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using NesopsService.Domain.Validation;
 
 namespace ProductCoreDev
 {
@@ -97,7 +101,16 @@ namespace ProductCoreDev
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            var types = typeof(CategoriesCreateModelValidator).Assembly.GetTypes();
+            new AssemblyScanner(types).ForEach(pair => {
+                services.Add(ServiceDescriptor.Transient(pair.InterfaceType, pair.ValidatorType));
+            });
+            services.AddMvc(options => {
+                options.Filters.Add(typeof(ValidatorActionFilter));
+            }).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
