@@ -17,20 +17,9 @@ using System.Threading.Tasks;
 
 namespace NesopsService.EntityControllerBase
 {
-    public interface IEntityControllerBase<TEntity, TReadModel, TCreateModel, TUpdateModel, TRequestModel>
-        where TEntity : class, IHaveIdentifier
-        where TRequestModel : class, IRequestModelBase
-        where TReadModel : class
-    {
-        Task<GetResponseModel<TReadModel, TRequestModel>> ReadModel(HttpRequest request, Guid id, CancellationToken cancellationToken = default(CancellationToken));
-        Task<GetResponseModel<TReadModel, TRequestModel>> ListModel(HttpRequest request, TRequestModel requestModel, CancellationToken cancellationToken = default(CancellationToken));
-        Task<TReadModel> CreateModel(TCreateModel createModel, CancellationToken cancellationToken = default(CancellationToken));
-        Task<TReadModel> UpdateModel(Guid id, TUpdateModel updateModel, CancellationToken cancellationToken = default(CancellationToken));
-        Task<TReadModel> DeleteModel(Guid id, CancellationToken cancellationToken = default(CancellationToken));
-    }
     [ApiController]
     [Produces("application/json")]
-    public abstract class EntityControllerBase<TDBContext, TEntity, TReadModel, TCreateModel, TUpdateModel, TRequestModel, THook> : ControllerBase,IEntityControllerBase<TEntity, TReadModel, TCreateModel, TUpdateModel, TRequestModel>
+    public abstract class EntityControllerBase<TDBContext, TEntity, TReadModel, TCreateModel, TUpdateModel, TRequestModel, THook> : ControllerBase
         where TDBContext : DbContext    
         where TEntity : class, IHaveIdentifier
         where TRequestModel : class, IRequestModelBase
@@ -47,7 +36,7 @@ namespace NesopsService.EntityControllerBase
             _mapper = mapper;
             _hook = hook;
         }
-        public virtual async Task<GetResponseModel<TReadModel,TRequestModel>> ReadModel(HttpRequest request, Guid id, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<GetResponseModel<TReadModel,TRequestModel>> ReadModel(HttpRequest request, Guid id, CancellationToken cancellationToken = default(CancellationToken))
         {
             var readModel = await _hook.ReadModel(request, id, cancellationToken);
             if (readModel == null)
@@ -57,7 +46,7 @@ namespace NesopsService.EntityControllerBase
             var result = new GetResponseModel<TReadModel, TRequestModel>(readModel);
             return result;
         }
-        public virtual async Task<GetResponseModel<TReadModel, TRequestModel>> ListModel(HttpRequest request,TRequestModel requestModel, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<GetResponseModel<TReadModel, TRequestModel>> ListModel(HttpRequest request,TRequestModel requestModel, CancellationToken cancellationToken = default(CancellationToken))
         {
             var readModel = await _hook.ListModel(request, cancellationToken);
             if (readModel == null)
@@ -67,7 +56,7 @@ namespace NesopsService.EntityControllerBase
             var result = new GetResponseModel<TReadModel, TRequestModel>(readModel, requestModel);
             return result;
         }
-        public virtual async Task<TReadModel> CreateModel(TCreateModel createModel, CancellationToken cancellationToken = default(CancellationToken))
+         protected virtual async Task<TReadModel> CreateModel(TCreateModel createModel, CancellationToken cancellationToken = default(CancellationToken))
         {
             // create new entity from model
             var entity = _mapper.Map<TEntity>(createModel);
@@ -87,7 +76,7 @@ namespace NesopsService.EntityControllerBase
             return readModel;
         }
 
-        public virtual async Task<TReadModel> UpdateModel(Guid id, TUpdateModel updateModel, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<TReadModel> UpdateModel(Guid id, TUpdateModel updateModel, CancellationToken cancellationToken = default(CancellationToken))
         {
             var keyValue = new object[] { id };
 
@@ -111,7 +100,7 @@ namespace NesopsService.EntityControllerBase
             return readModel;
         }
 
-        public virtual async Task<TReadModel> DeleteModel(Guid id, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<TReadModel> DeleteModel(Guid id, CancellationToken cancellationToken = default(CancellationToken))
         {
             var dbSet = _dataContext
                 .Set<TEntity>();
