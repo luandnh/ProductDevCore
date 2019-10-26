@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NesopsService.Hook.Before;
 
 namespace ProductCoreDev.Controllers
 {
@@ -14,7 +15,8 @@ namespace ProductCoreDev.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Hello");
+            var hooks = typeof(BeforeHookCategories).Assembly.GetTypes();
+            return Ok(hooks);
         }
     }
 }

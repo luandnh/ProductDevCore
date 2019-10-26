@@ -10,8 +10,8 @@ using NesopsAuthorizationService.DBContext;
 namespace NesopsAuthorizationService.Migrations
 {
     [DbContext(typeof(NesopsIdentityDbContext))]
-    [Migration("20191023032506_Initial")]
-    partial class Initial
+    [Migration("20191026062503_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

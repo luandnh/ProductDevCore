@@ -30,12 +30,12 @@ namespace ProductCoreDev.Controllers
         {
             var readModel = await ReadModel(this.Request, id, cancellationToken);
             if (readModel == null)
-                return NotFound();
+                return NotFound(new ErrorResponseModel<object> { message = "Not found", code = 404 });
             return Ok(readModel);
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IReadOnlyList<CategoriesReadModel>>> List(CancellationToken cancellationToken, [FromQuery]  CategoriesRequestModel requestModel)
+        public async Task<ActionResult<GetResponseModel<CategoriesReadModel, CategoriesRequestModel>>> List(CancellationToken cancellationToken, [FromQuery]  CategoriesRequestModel requestModel)
         {
             var readModels = await ListModel(this.Request, requestModel, cancellationToken);
             return Ok(readModels);
@@ -45,7 +45,7 @@ namespace ProductCoreDev.Controllers
         public async Task<ActionResult<CategoriesReadModel>> Create(CancellationToken cancellationToken,[FromForm]CategoriesCreateModel createModel)
         {
             var readModel = await CreateModel(createModel, cancellationToken);
-            return readModel;
+            return CreatedAtAction(nameof(Get), new { id = readModel.Id });
         }
 
         [HttpPut("{id}")]
@@ -53,9 +53,9 @@ namespace ProductCoreDev.Controllers
         {
             var readModel = await UpdateModel(id, updateModel, cancellationToken);
             if (readModel == null)
-                return NotFound();
+                return NotFound(new ErrorResponseModel<object> { message = "Not found", code = 404 });
 
-            return readModel;
+            return Ok(readModel);
         }
 
         [HttpDelete("{id}")]
@@ -63,9 +63,9 @@ namespace ProductCoreDev.Controllers
         {
             var readModel = await DeleteModel(id, cancellationToken);
             if (readModel == null)
-                return NotFound();
+                return NotFound(new ErrorResponseModel<object> { message = "Not found", code = 404 });
 
-            return readModel;
+            return Ok(readModel);
         }
     }
 }

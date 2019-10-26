@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NesopsService.Hook.Before
 {
-    public class BeforeHookSubcategories : HookHandleBase<ProductdevContext, Subcategories, SubcategoriesCreateModel, SubcategoriesRequestModel>
+    public class BeforeHookSubcategories : HookHandleBase<ProductdevContext, Subcategories, SubcategoriesReadModel, SubcategoriesRequestModel>
     {
         public BeforeHookSubcategories(ProductdevContext dataContext, IMapper mapper) : base(dataContext, mapper)
         {

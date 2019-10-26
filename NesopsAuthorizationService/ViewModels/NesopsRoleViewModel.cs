@@ -16,8 +16,6 @@ namespace NesopsAuthorizationService.ViewModels
         public string NormalizedName { get; set; }
         [JsonProperty("concurrencyStamp", NullValueHandling = NullValueHandling.Ignore)]
         public string ConcurrencyStamp { get; set; }
-        [JsonProperty("discriminator", NullValueHandling = NullValueHandling.Ignore)]
-        public string Discriminator { get; set; }
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
         [JsonProperty("displayName", NullValueHandling = NullValueHandling.Ignore)]
