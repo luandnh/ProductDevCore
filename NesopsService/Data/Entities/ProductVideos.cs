@@ -1,9 +1,10 @@
+using NesopsService.Identifier;
 using System;
 using System.Collections.Generic;
 
 namespace NesopsService.Data.Entities
 {
-    public partial class ProductVideos
+    public partial class ProductVideos : IHaveIdentifier
     {
         public ProductVideos()
         {

@@ -19,7 +19,7 @@ namespace NesopsService
     public static class ServiceRootConfig
     {
         public static void Entry(IServiceCollection services, IConfiguration configuration)
-        {
+        {   
             #region Auto Mapper Config
             // register AutoMapper profiles
             services.AddAutoMapper(typeof(AspNetUsersProfile));
@@ -45,6 +45,18 @@ namespace NesopsService
             });
             #endregion
             services.AddScoped(typeof(BeforeHookCategories));
+            services.AddScoped(typeof(BeforeHookOptiongroups));
+            services.AddScoped(typeof(BeforeHookOptions));
+            services.AddScoped(typeof(BeforeHookOrderDetailProductOptions));
+            services.AddScoped(typeof(BeforeHookOrderDetails));
+            services.AddScoped(typeof(BeforeHookOrders));
+            services.AddScoped(typeof(BeforeHookProductAttributes));
+            services.AddScoped(typeof(BeforeHookProductImages));
+            services.AddScoped(typeof(BeforeHookProductOptions));
+            services.AddScoped(typeof(BeforeHookProducts));
+            services.AddScoped(typeof(BeforeHookProductVideos));
+            services.AddScoped(typeof(BeforeHookStores));
+            services.AddScoped(typeof(BeforeHookSubcategories));
         }
     }
 }

@@ -36,7 +36,7 @@ namespace NesopsService.Hook.Before
                 var queryDictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
                 if (queryDictionary.Count > 0)
                 {
-                    if (queryDictionary.ContainsKey("subcategories"))
+                    if (queryDictionary.ContainsKey("subcategories") && queryDictionary["subcategories"] == "1")
                     {
                         query = query.Include(p => p.CategorySubcategories).AsQueryable();
                     }

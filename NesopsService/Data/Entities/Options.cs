@@ -1,9 +1,10 @@
+using NesopsService.Identifier;
 using System;
 using System.Collections.Generic;
 
 namespace NesopsService.Data.Entities
 {
-    public partial class Options
+    public partial class Options : IHaveIdentifier
     {
         public Options()
         {
