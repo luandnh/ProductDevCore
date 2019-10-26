@@ -6,15 +6,18 @@ namespace NesopsService.Hook.Models.ResponseModels
 {
     public class ErrorResponseModel<TData> where TData : class
     {
-        public string name { get; set; }
-        public string message { get; set; }
+        public string name { get; set; } = "";
+        public string message { get; set; } = "";
         public int code { get; set; }
-        public string className { get; set; }
-        public TData data { get; set; }
+        public string className { get; set; } = "";
+        public TData data { get; set; } = null;
         public IDictionary<string, string> errors { get; set; } = new Dictionary<string, string>();
         public void SetError(string name, string value)
         {
             errors[name] = value;
+        }
+        public ErrorResponseModel()
+        {
         }
     }
 }
