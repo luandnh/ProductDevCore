@@ -14,9 +14,7 @@ namespace NesopsService.Domain.Models
 
         public string RedirectUrl { get; set; }
 
-        public Guid OwnerId { get; set; }
-
-        public Guid? ApplicationsAspNetUsersId { get; set; }
+        public Guid? OwnerId { get; set; }
 
         #endregion
 

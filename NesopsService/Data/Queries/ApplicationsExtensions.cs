@@ -9,11 +9,6 @@ namespace NesopsService.Data.Queries
     public static partial class ApplicationsExtensions
     {
         #region Generated Extensions
-        public static IQueryable<NesopsService.Data.Entities.Applications> ByApplicationsAspNetUsersId(this IQueryable<NesopsService.Data.Entities.Applications> queryable, Guid? applicationsAspNetUsersId)
-        {
-            return queryable.Where(q => (q.ApplicationsAspNetUsersId == applicationsAspNetUsersId || (applicationsAspNetUsersId == null && q.ApplicationsAspNetUsersId == null)));
-        }
-
         public static NesopsService.Data.Entities.Applications GetByKey(this IQueryable<NesopsService.Data.Entities.Applications> queryable, Guid id)
         {
             if (queryable is DbSet<NesopsService.Data.Entities.Applications> dbSet)
@@ -29,6 +24,11 @@ namespace NesopsService.Data.Queries
 
             var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
             return new ValueTask<NesopsService.Data.Entities.Applications>(task);
+        }
+
+        public static IQueryable<NesopsService.Data.Entities.Applications> ByOwnerId(this IQueryable<NesopsService.Data.Entities.Applications> queryable, Guid? ownerId)
+        {
+            return queryable.Where(q => (q.OwnerId == ownerId || (ownerId == null && q.OwnerId == null)));
         }
 
         #endregion

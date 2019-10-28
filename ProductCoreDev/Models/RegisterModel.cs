@@ -44,12 +44,4 @@ namespace ProductCoreDev.Models
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
     }
-    public partial class NesopsRoleProfile
-    : AutoMapper.Profile
-    {
-        public NesopsRoleProfile()
-        {
-            CreateMap<NesopsRoles, AspNetRolesReadModel>();
-        }
-    }
 }

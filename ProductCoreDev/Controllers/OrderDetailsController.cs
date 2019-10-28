@@ -45,7 +45,7 @@ namespace ProductCoreDev.Controllers
         public async Task<ActionResult<OrderDetailsReadModel>> Create(CancellationToken cancellationToken, [FromForm]OrderDetailsCreateModel createModel)
         {
             var readModel = await CreateModel(createModel, cancellationToken);
-            return CreatedAtAction(nameof(Get), new { id = readModel.Id });
+            return CreatedAtAction(nameof(Get), new { id = readModel.Id },readModel);
         }
 
         [HttpPut("{id}")]

@@ -12,6 +12,8 @@ using NesopsService.Hook.Before;
 using NesopsService.Hook.Models.RequestModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NesopsService
@@ -19,24 +21,11 @@ namespace NesopsService
     public static class ServiceRootConfig
     {
         public static void Entry(IServiceCollection services, IConfiguration configuration)
-        {   
+        {
             #region Auto Mapper Config
             // register AutoMapper profiles
-            services.AddAutoMapper(typeof(AspNetUsersProfile));
-            services.AddAutoMapper(typeof(AspNetRolesProfile));
-            services.AddAutoMapper(typeof(CategoriesProfile));
-            services.AddAutoMapper(typeof(OptiongroupsProfile));
-            services.AddAutoMapper(typeof(OptionsProfile));
-            services.AddAutoMapper(typeof(OrderDetailProductOptionsProfile));
-            services.AddAutoMapper(typeof(OrderDetailsProfile));
-            services.AddAutoMapper(typeof(OrdersProfile));
-            services.AddAutoMapper(typeof(ProductAttributesProfile));
-            services.AddAutoMapper(typeof(ProductImagesProfile));
-            services.AddAutoMapper(typeof(ProductOptionsProfile));
-            services.AddAutoMapper(typeof(ProductsProfile));
-            services.AddAutoMapper(typeof(ProductVideosProfile));
-            services.AddAutoMapper(typeof(StoresProfile));
-            services.AddAutoMapper(typeof(SubcategoriesProfile));
+            //services.AddAutoMapper(typeof(AspNetUsersProfile));
+            services.AddAutoMapper(typeof(ProductsProfile).GetTypeInfo().Assembly);
             #endregion
             #region Config Validator
             // FluentValidation read on class extend AbstractValidator
@@ -45,20 +34,17 @@ namespace NesopsService
                 services.Add(ServiceDescriptor.Transient(pair.InterfaceType, pair.ValidatorType));
             });
             #endregion
-            services.AddScoped(typeof(BeforeHookAspNetRoles));
-            services.AddScoped(typeof(BeforeHookCategories));
-            services.AddScoped(typeof(BeforeHookOptiongroups));
-            services.AddScoped(typeof(BeforeHookOptions));
-            services.AddScoped(typeof(BeforeHookOrderDetailProductOptions));
-            services.AddScoped(typeof(BeforeHookOrderDetails));
-            services.AddScoped(typeof(BeforeHookOrders));
-            services.AddScoped(typeof(BeforeHookProductAttributes));
-            services.AddScoped(typeof(BeforeHookProductImages));
-            services.AddScoped(typeof(BeforeHookProductOptions));
-            services.AddScoped(typeof(BeforeHookProducts));
-            services.AddScoped(typeof(BeforeHookProductVideos));
-            services.AddScoped(typeof(BeforeHookStores));
-            services.AddScoped(typeof(BeforeHookSubcategories));
+
+            //services.AddScoped(typeof(BeforeHookAspNetRoles));
+            var typeHook = typeof(IHookBase);
+            var typesHook = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => typeHook.IsAssignableFrom(p));
+            foreach(Type type in typesHook)
+            {
+                if (type.Name.Contains("Before"))
+                {
+                    services.AddScoped(type);
+                }
+            }
         }
     }
 }

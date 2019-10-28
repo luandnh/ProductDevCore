@@ -63,6 +63,7 @@ namespace Nesops.Oauth2.Library.Services
             }
             var identity = new ClaimsIdentity();
             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             var userClaims = await _userManager.GetClaimsAsync(user);
             var userRoles = (await _userManager.GetRolesAsync(user));
             foreach (var userRole in userRoles)
@@ -86,7 +87,7 @@ namespace Nesops.Oauth2.Library.Services
             var issuer = NesopsJWTConfiguration.ISSUER;
             var audience = NesopsJWTConfiguration.AUDIENCE;
             var identity = ticket.Principal.Identity as ClaimsIdentity;
-            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            identity.AddClaim(new Claim(JwtRegisteredClaimNames.Jti, identity.FindFirst(ClaimTypes.NameIdentifier).Value));
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, ticket.Principal.Identity.Name));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -130,16 +131,6 @@ namespace Nesops.Oauth2.Library.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             res["access_token"] = tokenHandler.WriteToken(token);
             return res;
-        }
-        public bool IsValidRedirectUrl(string url)
-        {
-            if (url.Equals("/"))
-                return true;
-            var uri = new Uri(url);
-            url = uri.AbsoluteUri;
-            var allUrlLists = _dbContext.Applications.Select(app => app.RedirectUrl).ToList()
-                .Select(str => JsonConvert.DeserializeObject<IEnumerable<string>>(str));
-            return allUrlLists.Any(list => list.Contains(url));
         }
     }
 }

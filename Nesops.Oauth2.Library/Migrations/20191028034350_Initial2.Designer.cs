@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nesops.Oauth2.Library.DataContext;
 
 namespace Nesops.Oauth2.Library.Migrations
 {
     [DbContext(typeof(NesopsDbContext))]
-    partial class NesopsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191028034350_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,7 +134,7 @@ namespace Nesops.Oauth2.Library.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("OwnerId")
+                    b.Property<Guid?>("OwnerIdId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RedirectUrl")
@@ -140,7 +142,7 @@ namespace Nesops.Oauth2.Library.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerIdId");
 
                     b.ToTable("Applications");
                 });
@@ -301,9 +303,9 @@ namespace Nesops.Oauth2.Library.Migrations
 
             modelBuilder.Entity("Nesops.Oauth2.Library.Models.NesopsApplications", b =>
                 {
-                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsUsers", "Owner")
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsUsers", "OwnerId")
                         .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerIdId");
                 });
 #pragma warning restore 612, 618
         }

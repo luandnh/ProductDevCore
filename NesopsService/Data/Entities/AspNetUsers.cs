@@ -1,14 +1,15 @@
+using NesopsService.Identifier;
 using System;
 using System.Collections.Generic;
 
 namespace NesopsService.Data.Entities
 {
-    public partial class AspNetUsers
+    public partial class AspNetUsers : IHaveIdentifier
     {
         public AspNetUsers()
         {
             #region Generated Constructor
-            Applications = new HashSet<Applications>();
+            OwnerApplications = new HashSet<Applications>();
             UserAspNetUserClaims = new HashSet<AspNetUserClaims>();
             UserAspNetUserLogins = new HashSet<AspNetUserLogins>();
             UserAspNetUserRoles = new HashSet<AspNetUserRoles>();
@@ -53,7 +54,7 @@ namespace NesopsService.Data.Entities
         #endregion
 
         #region Generated Relationships
-        public virtual ICollection<Applications> Applications { get; set; }
+        public virtual ICollection<Applications> OwnerApplications { get; set; }
 
         public virtual ICollection<AspNetUserClaims> UserAspNetUserClaims { get; set; }
 

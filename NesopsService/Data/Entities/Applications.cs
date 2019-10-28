@@ -1,9 +1,10 @@
+using NesopsService.Identifier;
 using System;
 using System.Collections.Generic;
 
 namespace NesopsService.Data.Entities
 {
-    public partial class Applications
+    public partial class Applications : IHaveIdentifier
     {
         public Applications()
         {
@@ -20,14 +21,12 @@ namespace NesopsService.Data.Entities
 
         public string RedirectUrl { get; set; }
 
-        public Guid OwnerId { get; set; }
-
-        public Guid? ApplicationsAspNetUsersId { get; set; }
+        public Guid? OwnerId { get; set; }
 
         #endregion
 
         #region Generated Relationships
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual AspNetUsers OwnerAspNetUsers { get; set; }
 
         #endregion
 

@@ -12,9 +12,8 @@ namespace Nesops.Oauth2.Library.Models
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string RedirectUrl { get; set; }
-        public Guid OwnerId { get; set; }
 
         //Relationship with AspNetUsers
-        public virtual NesopsUsers ApplicationsAspNetUsers { get; set; }
+        public virtual NesopsUsers Owner { get; set; }
     }
 }

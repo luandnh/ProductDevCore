@@ -32,7 +32,14 @@ namespace Nesops.Oauth2.Controllers
         {
             _authorizationService = authorizationService;
         }
-
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetResponseModel<AspNetRolesReadModel, AspNetRolesRequestModel>>> Get(CancellationToken cancellationToken, Guid id)
+        {
+            var readModel = await ReadModel(this.Request, id, cancellationToken);
+            if (readModel == null)
+                return NotFound(new ErrorResponseModel<object> { message = "Not found", code = 404 });
+            return Ok(readModel);
+        }
         [HttpGet]
         public async Task<ActionResult<GetResponseModel<AspNetRolesReadModel, AspNetRolesRequestModel>>> Get(CancellationToken cancellationToken, [FromQuery]  AspNetRolesRequestModel requestModel)
         {

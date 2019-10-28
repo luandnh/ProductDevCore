@@ -14,7 +14,10 @@ using System.Threading.Tasks;
 
 namespace NesopsService.Hook
 {
-    public interface IHookHandleBase<TDBContext, TEntity, TReadModel, TRequestModel> 
+    public interface IHookBase
+    {
+    }
+    public interface IHookHandleBase<TDBContext, TEntity, TReadModel, TRequestModel> : IHookBase
         where TDBContext : DbContext
         where TRequestModel : class, IRequestModelBase
         where TEntity : class, IHaveIdentifier

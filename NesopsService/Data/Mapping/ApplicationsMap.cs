@@ -35,19 +35,14 @@ namespace NesopsService.Data.Mapping
                 .HasColumnType("nvarchar(max)");
 
             builder.Property(t => t.OwnerId)
-                .IsRequired()
                 .HasColumnName("OwnerId")
                 .HasColumnType("uniqueidentifier");
 
-            builder.Property(t => t.ApplicationsAspNetUsersId)
-                .HasColumnName("ApplicationsAspNetUsersId")
-                .HasColumnType("uniqueidentifier");
-
             // relationships
-            builder.HasOne(t => t.AspNetUsers)
-                .WithMany(t => t.Applications)
-                .HasForeignKey(d => d.ApplicationsAspNetUsersId)
-                .HasConstraintName("FK_Applications_AspNetUsers_ApplicationsAspNetUsersId");
+            builder.HasOne(t => t.OwnerAspNetUsers)
+                .WithMany(t => t.OwnerApplications)
+                .HasForeignKey(d => d.OwnerId)
+                .HasConstraintName("FK_Applications_AspNetUsers_OwnerId");
 
             #endregion
         }
