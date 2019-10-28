@@ -50,7 +50,7 @@ namespace ProductCoreDev.Controllers
             return Ok(_hook.IsValidRedirectUrl(url));
         }
         [HttpPost]
-        public async Task<ActionResult<ProductsReadModel>> Create(CancellationToken cancellationToken, [FromForm]ApplicationsCreateModel createModel)
+        public async Task<ActionResult<ApplicationsReadModel>> Create(CancellationToken cancellationToken, [FromForm]ApplicationsCreateModel createModel)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -62,6 +62,7 @@ namespace ProductCoreDev.Controllers
                 return Unauthorized();
             }
             createModel.OwnerId = Guid.Parse(userId);
+            createModel.RedirectUrl = new Uri(createModel.RedirectUrl).AbsoluteUri;
             var readModel = await CreateModel(createModel, cancellationToken);
             return CreatedAtAction(nameof(Get), new { id = readModel.Id },readModel);
         }

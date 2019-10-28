@@ -13,7 +13,6 @@ namespace NesopsService.Domain.Models
 
         public string RedirectUrl { get; set; }
 
-        [HiddenInput]
         public Guid? OwnerId { get; set; }
 
         #endregion

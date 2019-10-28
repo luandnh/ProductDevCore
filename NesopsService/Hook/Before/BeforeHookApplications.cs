@@ -22,9 +22,8 @@ namespace NesopsService.Hook.Before
                 return true;
             var uri = new Uri(url);
             url = uri.AbsoluteUri;
-            var allUrlLists = _dataContext.Applications.Select(app => app.RedirectUrl).ToList()
-                .Select(str => JsonConvert.DeserializeObject<IEnumerable<string>>(str));
-            return allUrlLists.Any(list => list.Contains(url));
+            var allUrlLists = _dataContext.Applications.Select(app => app.RedirectUrl).ToList();
+            return allUrlLists.Contains(url);
         }
     }
 }
