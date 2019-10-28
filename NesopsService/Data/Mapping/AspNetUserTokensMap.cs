@@ -25,14 +25,14 @@ namespace NesopsService.Data.Mapping
             builder.Property(t => t.LoginProvider)
                 .IsRequired()
                 .HasColumnName("LoginProvider")
-                .HasColumnType("nvarchar(85)")
-                .HasMaxLength(85);
+                .HasColumnType("nvarchar(450)")
+                .HasMaxLength(450);
 
             builder.Property(t => t.Name)
                 .IsRequired()
                 .HasColumnName("Name")
-                .HasColumnType("nvarchar(85)")
-                .HasMaxLength(85);
+                .HasColumnType("nvarchar(450)")
+                .HasMaxLength(450);
 
             builder.Property(t => t.Value)
                 .HasColumnName("Value")

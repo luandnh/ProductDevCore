@@ -1,12 +1,12 @@
-﻿using NesopsAuthorizationService.Identity;
+﻿using Nesops.Oauth2.Library.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NesopsAuthorizationService.ViewModels
+namespace Nesops.Oauth2.Library.ViewModels
 {
-    public class NesopsRoleViewModel : BaseViewModel<NesopsRole>
+    public class NesopsRolesViewModel : BaseViewModel<NesopsRoles>
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
@@ -21,8 +21,8 @@ namespace NesopsAuthorizationService.ViewModels
         [JsonProperty("displayName", NullValueHandling = NullValueHandling.Ignore)]
         public string DisplayName { get; set; }
 
-        public NesopsRoleViewModel() { }
-        public NesopsRoleViewModel(NesopsRole entity) : base(entity)
+        public NesopsRolesViewModel() { }
+        public NesopsRolesViewModel(NesopsRoles entity) : base(entity)
         {
         }
 

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using NesopsAuthorizationService.Identity;
-using NesopsAuthorizationService.ViewModels;
+using Nesops.Oauth2.Library.Models;
+using Nesops.Oauth2.Library.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NesopsAuthorizationService
+namespace Nesops.Oauth2.Library.Configs
 {
     /// <summary>
     /// AuthorizationMapperConfiguration ( AMC )
@@ -17,7 +17,7 @@ namespace NesopsAuthorizationService
         {
             var mapperConfig = new MapperConfiguration(config =>
             {
-                config.CreateMap<NesopsRole, NesopsRoleViewModel>().ReverseMap();
+                config.CreateMap<NesopsRoles, NesopsRolesViewModel>().ReverseMap();
             });
             AMC._mapper = mapperConfig.CreateMapper();
         }

@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NesopsAuthorizationService.Identity
+namespace Nesops.Oauth2.Library.Models
 {
-    public class NesopsRole : IdentityRole<Guid>
+    public class NesopsRoles : IdentityRole<Guid>
     {
         public string DisplayName { get; set; }
         public string Description { get; set; }
-        public NesopsRole() { }
-        public NesopsRole(string roleName) : base(roleName)
+        public NesopsRoles() { }
+        public NesopsRoles(string roleName) : base(roleName)
         {
         }
     }

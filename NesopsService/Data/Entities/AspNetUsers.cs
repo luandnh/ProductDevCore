@@ -8,6 +8,7 @@ namespace NesopsService.Data.Entities
         public AspNetUsers()
         {
             #region Generated Constructor
+            Applications = new HashSet<Applications>();
             UserAspNetUserClaims = new HashSet<AspNetUserClaims>();
             UserAspNetUserLogins = new HashSet<AspNetUserLogins>();
             UserAspNetUserRoles = new HashSet<AspNetUserRoles>();
@@ -52,6 +53,8 @@ namespace NesopsService.Data.Entities
         #endregion
 
         #region Generated Relationships
+        public virtual ICollection<Applications> Applications { get; set; }
+
         public virtual ICollection<AspNetUserClaims> UserAspNetUserClaims { get; set; }
 
         public virtual ICollection<AspNetUserLogins> UserAspNetUserLogins { get; set; }

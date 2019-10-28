@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Nesops.Oauth2.Library.Models;
+using NesopsService.Domain.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -28,5 +31,25 @@ namespace ProductCoreDev.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+    public class NesopsRolesCreateModel
+    {
+        [Required]
+        [StringLength(100, MinimumLength = 3)]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        public string Name { get; set; }
+        [Required]
+        [JsonProperty("displayName", NullValueHandling = NullValueHandling.Ignore)]
+        public string DisplayName { get; set; }
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
+        public string Description { get; set; }
+    }
+    public partial class NesopsRoleProfile
+    : AutoMapper.Profile
+    {
+        public NesopsRoleProfile()
+        {
+            CreateMap<NesopsRoles, AspNetRolesReadModel>();
+        }
     }
 }

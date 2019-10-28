@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NesopsAuthorizationService\NesopsAuthorizationService.csproj" />
+    <ProjectReference Include="..\Nesops.Oauth2.Library\Nesops.Oauth2.Library.csproj" />
     <ProjectReference Include="..\NesopsService\NesopsService.csproj" />
   </ItemGroup>
 

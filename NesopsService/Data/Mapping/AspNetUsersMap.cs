@@ -29,8 +29,8 @@ namespace NesopsService.Data.Mapping
 
             builder.Property(t => t.NormalizedUserName)
                 .HasColumnName("NormalizedUserName")
-                .HasColumnType("nvarchar(85)")
-                .HasMaxLength(85);
+                .HasColumnType("nvarchar(256)")
+                .HasMaxLength(256);
 
             builder.Property(t => t.Email)
                 .HasColumnName("Email")
@@ -39,8 +39,8 @@ namespace NesopsService.Data.Mapping
 
             builder.Property(t => t.NormalizedEmail)
                 .HasColumnName("NormalizedEmail")
-                .HasColumnType("nvarchar(85)")
-                .HasMaxLength(85);
+                .HasColumnType("nvarchar(256)")
+                .HasMaxLength(256);
 
             builder.Property(t => t.EmailConfirmed)
                 .IsRequired()

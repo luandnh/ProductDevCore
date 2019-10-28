@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NesopsAuthorizationService.DBContext;
+using Nesops.Oauth2.Library.DataContext;
 
-namespace NesopsAuthorizationService.Migrations
+namespace Nesops.Oauth2.Library.Migrations
 {
-    [DbContext(typeof(NesopsIdentityDbContext))]
-    [Migration("20191026062503_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(NesopsDbContext))]
+    [Migration("20191028023233_Initial1")]
+    partial class Initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,6 @@ namespace NesopsAuthorizationService.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasMaxLength(12)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
@@ -36,8 +35,7 @@ namespace NesopsAuthorizationService.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -51,7 +49,6 @@ namespace NesopsAuthorizationService.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasMaxLength(12)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
@@ -61,8 +58,7 @@ namespace NesopsAuthorizationService.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -74,19 +70,16 @@ namespace NesopsAuthorizationService.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -98,12 +91,10 @@ namespace NesopsAuthorizationService.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -115,16 +106,13 @@ namespace NesopsAuthorizationService.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -134,12 +122,39 @@ namespace NesopsAuthorizationService.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("NesopsAuthorizationService.Identity.NesopsRole", b =>
+            modelBuilder.Entity("Nesops.Oauth2.Library.Models.NesopsApplications", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ApplicationsAspNetUsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RedirectUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationsAspNetUsersId");
+
+                    b.ToTable("Applications");
+                });
+
+            modelBuilder.Entity("Nesops.Oauth2.Library.Models.NesopsRoles", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -156,8 +171,8 @@ namespace NesopsAuthorizationService.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -169,12 +184,11 @@ namespace NesopsAuthorizationService.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("NesopsAuthorizationService.Identity.NesopsUser", b =>
+            modelBuilder.Entity("Nesops.Oauth2.Library.Models.NesopsUsers", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasMaxLength(12);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -200,12 +214,12 @@ namespace NesopsAuthorizationService.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -241,7 +255,7 @@ namespace NesopsAuthorizationService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("NesopsAuthorizationService.Identity.NesopsRole", null)
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsRoles", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -250,7 +264,7 @@ namespace NesopsAuthorizationService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("NesopsAuthorizationService.Identity.NesopsUser", null)
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -259,7 +273,7 @@ namespace NesopsAuthorizationService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("NesopsAuthorizationService.Identity.NesopsUser", null)
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,13 +282,13 @@ namespace NesopsAuthorizationService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("NesopsAuthorizationService.Identity.NesopsRole", null)
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsRoles", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NesopsAuthorizationService.Identity.NesopsUser", null)
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -283,11 +297,18 @@ namespace NesopsAuthorizationService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("NesopsAuthorizationService.Identity.NesopsUser", null)
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Nesops.Oauth2.Library.Models.NesopsApplications", b =>
+                {
+                    b.HasOne("Nesops.Oauth2.Library.Models.NesopsUsers", "ApplicationsAspNetUsers")
+                        .WithMany()
+                        .HasForeignKey("ApplicationsAspNetUsersId");
                 });
 #pragma warning restore 612, 618
         }

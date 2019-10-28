@@ -11,9 +11,9 @@ namespace NesopsService.Domain.Validation
         {
             #region Generated Constructor
             RuleFor(p => p.UserName).MaximumLength(256);
-            RuleFor(p => p.NormalizedUserName).MaximumLength(85);
+            RuleFor(p => p.NormalizedUserName).MaximumLength(256);
             RuleFor(p => p.Email).MaximumLength(256);
-            RuleFor(p => p.NormalizedEmail).MaximumLength(85);
+            RuleFor(p => p.NormalizedEmail).MaximumLength(256);
             #endregion
         }
 

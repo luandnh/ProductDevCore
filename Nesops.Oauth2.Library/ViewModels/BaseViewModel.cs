@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Nesops.Oauth2.Library.Configs;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NesopsAuthorizationService.ViewModels
+namespace Nesops.Oauth2.Library.ViewModels
 {
     public partial interface IViewModel
     {

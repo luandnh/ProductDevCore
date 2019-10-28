@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NesopsAuthorizationService;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -24,6 +23,8 @@ using AutoMapper;
 using NesopsService;
 using ProductCoreDev.Filters;
 using FluentValidation.AspNetCore;
+using Nesops.Oauth2.Library;
+using ProductCoreDev.Models;
 
 namespace ProductCoreDev
 {
@@ -35,16 +36,14 @@ namespace ProductCoreDev
         }
 
         public IConfiguration Configuration { get; }
-        public IdentityOptions identityOptions { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             #region Authorize config
-            AuthorizationRootConfig.Entry(services, Configuration, identityOptions);
+            NesopsAuthorizationConfig.Entry(services, Configuration);
             #endregion
             services.AddDbContext<ProductdevContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProductDev")));
-
             #region Nesops Service
             ServiceRootConfig.Entry(services, Configuration);
             #endregion
@@ -117,6 +116,7 @@ namespace ProductCoreDev
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseHttpsRedirection();
             #region Swagger Config
             app.UseSwagger();

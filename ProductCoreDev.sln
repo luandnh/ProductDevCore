@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductCoreDev", "ProductCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NesopsService", "NesopsService\NesopsService.csproj", "{0058862D-A8F8-4E86-970A-2A515EE33796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NesopsAuthorizationService", "NesopsAuthorizationService\NesopsAuthorizationService.csproj", "{16D31B0E-648C-4E3E-A675-E2CB504130F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nesops.Oauth2.Library", "Nesops.Oauth2.Library\Nesops.Oauth2.Library.csproj", "{0246B24B-0B65-4A0A-951F-664965AD73A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{0058862D-A8F8-4E86-970A-2A515EE33796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0058862D-A8F8-4E86-970A-2A515EE33796}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0058862D-A8F8-4E86-970A-2A515EE33796}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16D31B0E-648C-4E3E-A675-E2CB504130F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16D31B0E-648C-4E3E-A675-E2CB504130F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16D31B0E-648C-4E3E-A675-E2CB504130F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16D31B0E-648C-4E3E-A675-E2CB504130F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0246B24B-0B65-4A0A-951F-664965AD73A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0246B24B-0B65-4A0A-951F-664965AD73A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0246B24B-0B65-4A0A-951F-664965AD73A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0246B24B-0B65-4A0A-951F-664965AD73A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

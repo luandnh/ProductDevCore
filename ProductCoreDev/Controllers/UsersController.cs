@@ -5,14 +5,14 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NesopsAuthorizationService.Identity;
-using NesopsAuthorizationService.Services;
+using Nesops.Oauth2.Library.Models;
+using Nesops.Oauth2.Library.Services;
 using ProductCoreDev.Models;
 
-namespace productdevapi.Controllers
+namespace ProductCoreDev.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : ControllerBase
     {
         public readonly AuthorizationService _authorizationService;
@@ -23,25 +23,28 @@ namespace productdevapi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm]RegisterModel model)
         {
-            try {
+            try
+            {
                 if (ModelState.IsValid)
                 {
-                    var user = new NesopsUser
+                    var user = new NesopsUsers
                     {
                         UserName = model.Username
                     };
                     var userRoles = new List<string>()
                     {
-                        "ActiveUser"
+                        "ActiveUser",
+                        "Admin"
                     };
-                    var result = await _authorizationService.CreateUserAsync(user, model.Password,userRoles);
+                    var result = await _authorizationService.CreateUserAsync(user, model.Password, userRoles);
                     if (result.Succeeded)
                         return Ok(new { message = "You have been registered your account." });
                     foreach (var err in result.Errors)
                         ModelState.AddModelError(err.Code, err.Description);
                 }
                 return BadRequest(ModelState);
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }

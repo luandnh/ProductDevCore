@@ -95,7 +95,7 @@ namespace NesopsService.Data.Mapping
             builder.HasOne(t => t.UserAspNetUsers)
                 .WithMany(t => t.UserOrders)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__orders__user_id__0F2D40CE");
+                .HasConstraintName("FK__orders__user_id__7DCDAAA2");
 
             #endregion
         }

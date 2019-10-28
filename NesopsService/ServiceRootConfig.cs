@@ -23,6 +23,7 @@ namespace NesopsService
             #region Auto Mapper Config
             // register AutoMapper profiles
             services.AddAutoMapper(typeof(AspNetUsersProfile));
+            services.AddAutoMapper(typeof(AspNetRolesProfile));
             services.AddAutoMapper(typeof(CategoriesProfile));
             services.AddAutoMapper(typeof(OptiongroupsProfile));
             services.AddAutoMapper(typeof(OptionsProfile));
@@ -44,6 +45,7 @@ namespace NesopsService
                 services.Add(ServiceDescriptor.Transient(pair.InterfaceType, pair.ValidatorType));
             });
             #endregion
+            services.AddScoped(typeof(BeforeHookAspNetRoles));
             services.AddScoped(typeof(BeforeHookCategories));
             services.AddScoped(typeof(BeforeHookOptiongroups));
             services.AddScoped(typeof(BeforeHookOptions));

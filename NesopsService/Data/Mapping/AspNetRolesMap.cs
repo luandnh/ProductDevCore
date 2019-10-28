@@ -29,8 +29,8 @@ namespace NesopsService.Data.Mapping
 
             builder.Property(t => t.NormalizedName)
                 .HasColumnName("NormalizedName")
-                .HasColumnType("nvarchar(85)")
-                .HasMaxLength(85);
+                .HasColumnType("nvarchar(256)")
+                .HasMaxLength(256);
 
             builder.Property(t => t.ConcurrencyStamp)
                 .HasColumnName("ConcurrencyStamp")

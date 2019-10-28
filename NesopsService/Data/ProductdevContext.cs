@@ -12,6 +12,8 @@ namespace NesopsService.Data
         }
 
         #region Generated Properties
+        public virtual DbSet<NesopsService.Data.Entities.Applications> Applications { get; set; }
+
         public virtual DbSet<NesopsService.Data.Entities.AspNetRoleClaims> AspNetRoleClaims { get; set; }
 
         public virtual DbSet<NesopsService.Data.Entities.AspNetRoles> AspNetRoles { get; set; }
@@ -57,6 +59,7 @@ namespace NesopsService.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Generated Configuration
+            modelBuilder.ApplyConfiguration(new NesopsService.Data.Mapping.ApplicationsMap());
             modelBuilder.ApplyConfiguration(new NesopsService.Data.Mapping.AspNetRoleClaimsMap());
             modelBuilder.ApplyConfiguration(new NesopsService.Data.Mapping.AspNetRolesMap());
             modelBuilder.ApplyConfiguration(new NesopsService.Data.Mapping.AspNetUserClaimsMap());

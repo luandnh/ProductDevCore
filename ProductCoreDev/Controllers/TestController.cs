@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NesopsService.Hook.Before;
 
 namespace ProductCoreDev.Controllers
 {
@@ -12,11 +12,17 @@ namespace ProductCoreDev.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("1")]
+        [AllowAnonymous]
+        public IActionResult Test1()
         {
-            var hooks = typeof(BeforeHookCategories).Assembly.GetTypes();
-            return Ok(hooks);
+            return Ok(User.Identity.IsAuthenticated +" --- "+ User.Identity.Name);
+        }
+        [HttpGet("2")]
+        [Authorize(Roles ="ActiveUser")]
+        public IActionResult Test2()
+        {
+            return Ok(User.Identity.IsAuthenticated + " --- " + User.Identity.Name);
         }
     }
 }

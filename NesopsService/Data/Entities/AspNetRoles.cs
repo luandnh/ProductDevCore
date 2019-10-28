@@ -1,9 +1,10 @@
+using NesopsService.Identifier;
 using System;
 using System.Collections.Generic;
 
 namespace NesopsService.Data.Entities
 {
-    public partial class AspNetRoles
+    public partial class AspNetRoles : IHaveIdentifier
     {
         public AspNetRoles()
         {
