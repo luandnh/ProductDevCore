@@ -2,7 +2,7 @@ project:
   namespace: 'NesopsService'
   directory: .\NesopsService
 database:
-  connectionName: ConnectionStrings:Generator
+  connectionString: 'Server=192.168.2.101,1433;Database=productdev;uid=sa;pwd=zaQ@1234;'
   userSecretsId: 4c79af93-cb83-48a3-9aba-11d33a91b2ac
 data:
   context:

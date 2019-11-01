@@ -38,6 +38,24 @@ namespace NesopsService.Data.Mapping
                 .HasColumnName("OwnerId")
                 .HasColumnType("uniqueidentifier");
 
+            builder.Property(t => t.Active)
+                .IsRequired()
+                .HasColumnName("Active")
+                .HasColumnType("bit")
+                .HasDefaultValueSql("(CONVERT([bit],(1)))");
+
+            builder.Property(t => t.CreateAt)
+                .IsRequired()
+                .HasColumnName("createAt")
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
+
+            builder.Property(t => t.UpdateAt)
+                .IsRequired()
+                .HasColumnName("updateAt")
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
+
             // relationships
             builder.HasOne(t => t.OwnerAspNetUsers)
                 .WithMany(t => t.OwnerApplications)

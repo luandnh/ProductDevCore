@@ -16,6 +16,12 @@ namespace NesopsService.Domain.Models
 
         public Guid? OwnerId { get; set; }
 
+        public bool Active { get; set; }
+
+        public DateTime CreateAt { get; set; }
+
+        public DateTime UpdateAt { get; set; }
+
         #endregion
 
     }
