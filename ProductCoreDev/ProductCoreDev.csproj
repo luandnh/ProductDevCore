@@ -10,6 +10,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\ApplicationsController.cs" />
+    <Compile Remove="Controllers\AuthorizeController.cs" />
+    <Compile Remove="Controllers\OptiongroupsController.cs" />
+    <Compile Remove="Controllers\OptionsController.cs" />
+    <Compile Remove="Controllers\OrderDetailProductOptionsController.cs" />
+    <Compile Remove="Controllers\OrderDetailsController.cs" />
+    <Compile Remove="Controllers\OrdersController.cs" />
+    <Compile Remove="Controllers\ProductAttributesController.cs" />
+    <Compile Remove="Controllers\ProductImagesController.cs" />
+    <Compile Remove="Controllers\ProductOptionsController.cs" />
+    <Compile Remove="Controllers\ProductsController.cs" />
+    <Compile Remove="Controllers\ProductVideosController.cs" />
+    <Compile Remove="Controllers\RolesController.cs" />
+    <Compile Remove="Controllers\SubcategoriesController.cs" />
+    <Compile Remove="Controllers\UsersController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">

@@ -52,14 +52,21 @@ namespace ProductCoreDev
                 c.SwaggerDoc("nesops", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Nesops Authorization",
-                    Description = "Nesops Authorization Services",
+                    Title = "Nesops Swagger Production",
+                    Description = "Nesops Swagger for Production Services",
                     Contact = new OpenApiContact
                     {
-                        Name = "Duong Nguyen Hoang Luan",
-                        Email = "luandnh1998@gmail.com"
+                        Name = "LuanDNH",
+                        Email = "luandnh1998@gmail.com",
+                        Url = new Uri("https://www.facebook.com/luandnh98")
+                    },
+                    TermsOfService = new Uri("http://nesops.xyz"),
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("http://nesops.xyz")
                     }
-                });
+                }) ;
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NesopsService.Data;
@@ -7,9 +8,9 @@ using NesopsService.Data.Entities;
 using NesopsService.Domain.Mapping;
 using NesopsService.Domain.Models;
 using NesopsService.Domain.Validation;
-using NesopsService.Hook;
-using NesopsService.Hook.Before;
-using NesopsService.Hook.Models.RequestModels;
+using NesopsService.Service.BaseRepo;
+using NesopsService.Service.EntityServices;
+using NesopsService.Service.ServiceBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,9 @@ namespace NesopsService
     public static class ServiceRootConfig
     {
         public static void Entry(IServiceCollection services, IConfiguration configuration)
-        {
+        { 
+            services.AddScoped(typeof(DbContext), typeof(ProductdevContext));
+            services.AddScoped(typeof(IUnitOfWork<ProductdevContext>), typeof(UnitOfWork<ProductdevContext>));
             #region Auto Mapper Config
             // register AutoMapper profiles
             //services.AddAutoMapper(typeof(AspNetUsersProfile));
@@ -34,16 +37,16 @@ namespace NesopsService
                 services.Add(ServiceDescriptor.Transient(pair.InterfaceType, pair.ValidatorType));
             });
             #endregion
-
-            //services.AddScoped(typeof(BeforeHookAspNetRoles));
-            var typeHook = typeof(IHookBase);
-            var typesHook = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => typeHook.IsAssignableFrom(p));
-            foreach(Type type in typesHook)
+            var typeService = typeof(IBaseService);
+            var typesService = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => typeService.IsAssignableFrom(p));
+            foreach (Type type in typesService)
             {
-                if (type.Name.Contains("Before"))
+                if (!type.Name.Contains("BaseService"))
                 {
                     services.AddScoped(type);
+                    System.Diagnostics.Debug.WriteLine(type.Name);
                 }
+
             }
         }
     }
